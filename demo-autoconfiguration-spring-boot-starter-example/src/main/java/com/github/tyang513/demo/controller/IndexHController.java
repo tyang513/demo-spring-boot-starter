@@ -1,5 +1,8 @@
 package com.github.tyang513.demo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tyang513.demo.service.DemoComplexService;
 import com.github.tyang513.demo.service.DemoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +22,11 @@ public class IndexHController {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexHController.class);
 
-
     @Autowired
     private DemoService demoService;
+
+    @Autowired
+    private DemoComplexService demoComplexService;
 
     @RequestMapping(value = "/s",method = RequestMethod.GET)
     @ResponseBody
@@ -29,5 +34,12 @@ public class IndexHController {
         String configureLocationn = demoService.getConfigurationLocation();
         logger.info(configureLocationn);
         return configureLocationn;
+    }
+
+    @RequestMapping(value = "/ss",method = RequestMethod.GET)
+    @ResponseBody
+    public String indexComplex() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(demoComplexService.getMap());
     }
 }
